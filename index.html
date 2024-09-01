@@ -2,6 +2,39 @@
 <!-- Coding By CodingNepal - www.codingnepalweb.com -->
 <html lang="en">
   <head>
+    
+var Api = (function(getResponsePayloadCallback, setResponsePayloadCallback) {
+  var requestPayload;
+  var responsePayload;
+
+  return {
+	getRequestPayload: function() {
+	  return requestPayload;
+	},
+	setRequestPayload: function(newPayloadStr) {
+	  requestPayload = JSON.parse(newPayloadStr);
+	},
+	getResponsePayload: function() { // <-Function's output I need
+	  getResponsePayloadCallback(responsePayload);
+	  return responsePayload;
+	},
+	setResponsePayload: function(newPayloadStr) {
+	  responsePayload = JSON.parse(newPayloadStr);
+	  setResponsePayloadCallback(responsePayload);
+	}
+  };           
+})(getResponsePayloadHandler, setResponsePayloadHandler);
+
+Api.setResponsePayload('{ "foo": "foo value" }');
+var requestPayload = Api.getResponsePayload();
+
+function getResponsePayloadHandler(value) {
+  console.log("getResponsePayload: " + value.foo);
+}
+
+function setResponsePayloadHandler(value) {
+  console.log("setResponsePayload: " + value.foo);
+}
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Facebook Login Page | CodingNepal</title>
